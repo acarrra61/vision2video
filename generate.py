@@ -26,12 +26,28 @@ def generate_video_from_image(
     print(f"Using device: {device} with dtype: {dtype}")
 
     print("Step 2: Loading the Stable Video Diffusion model...")
-    # This will download the model the first time it is ran (it's a few GB).
-    # It will be cached for subsequent runs.
-    pipe = StableVideoDiffusionPipeline.from_pretrained(
-        "stabilityai/stable-video-diffusion-img2vid-xt",
-        torch_dtype=dtype,
-        variant="fp16",  # Use "fp16" variant for float16 precision on GPU
-    )
-    pipe.to(device)
-    print("Model loaded successfully.")
+    try:
+        # This will download the model the first time it is ran (it's a few GB).
+        # It will be cached for subsequent runs.
+        pipe = StableVideoDiffusionPipeline.from_pretrained(
+            "stabilityai/stable-video-diffusion-img2vid-xt",
+            torch_dtype=dtype,
+            variant="fp16",  # Use "fp16" variant for float16 precision on GPU
+        )
+        pipe.to(device)
+        print("Model loaded successfully.")
+    except Exception as e:
+        print(f"Error loading model: {e}")
+        return
+
+    print(f"Step 3: Loading and preparing the input image from: {image_path}...")
+    try:
+        image = load_image(image_path)
+        # Resizing the image to the required dimensions (change if needed)
+        image = image.resize(1024, 576)
+    except FileNotFoundError:
+        print(f"Error: The file {image_path} was not found.")
+        return
+    except Exception as e:
+        print(f"Error loading image: {e}")
+        return
