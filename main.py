@@ -27,7 +27,7 @@ def run_generation_in_background(
     print(f"Job {job_id}: Starting video generation from {temp_image_path}")
     job_status[job_id] = {"status": "processing"}
     try:
-        # Calling the video generation function from generate.py
+        # Calling the video generation function from generate.py!
         generate_video_from_image(
             image_path=temp_image_path, output_path=output_video_path
         )
