@@ -51,3 +51,25 @@ def generate_video_from_image(
     except Exception as e:
         print(f"Error loading image: {e}")
         return
+
+    print("Step 4: Generating video frames.. (This can take several minutes!)")
+    # The model works best with a seed for reproducibility (change if needed)
+    generator = torch.manual_seed(42)
+
+    frames = pipe(
+        image,
+        decode_chunk_size=8,  # Lower this if you have low VRAM
+        generator=generator,
+        motion_bucket_id=127,  # Controls the amount of motion in the video
+        noise_aug_strength=0.1,  # Adds a bit of noise for more motion
+    ).frames[0]
+    print("Frame generaton completed.")
+
+    print(f"Step 5: Exporting frames to video file: {output_path}...")
+    try:
+        export_to_video(
+            frames, output_path, fps=7
+        )  # Exporting with 7 frames per second
+        print(f"Success! Video saved to: {output_path}")
+    except Exception as e:
+        print(f"Error exporting video: {e}")
