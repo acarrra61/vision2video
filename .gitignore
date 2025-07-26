@@ -208,3 +208,7 @@ __marimo__/
 
 *.png
 *.mp4
+
+# Ignore generated media files
+/uploads/
+/outputs/

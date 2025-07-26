@@ -1,8 +1,9 @@
 import os
 import uuid
 import shutil
-from fastapi import FastAPI, UploadFile, File, BackgroundTasks
+from fastapi import FastAPI, UploadFile, File, BackgroundTasks, HTTPException
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 # Importing the generator function to link it with the API
 from generate import generate_video_from_image
@@ -39,3 +40,50 @@ def run_generation_in_background(
         # Cleaning up the uploaded image file after it is done being processed
         if os.path.exists(temp_image_path):
             os.remove(temp_image_path)
+
+
+@app.post("/generate_video")
+async def create_video_generation_job(
+    background_tasks: BackgroundTasks, image: UploadFile = File(...)
+):
+    """
+    The main endpoint to handle video generation requests.
+    It accepts an image file, saves it temporarily, and starts the video generation as a background task.
+    """
+
+    # Generate a unique job ID for this job for tracking
+    job_id = str(uuid.uuid4())
+
+    # Define paths for temporary image and output video
+    temp_image_path = os.path.join("uploads", f"{job_id}_{image.filename}")
+    output_video_path = os.path.join("outputs", f"{job_id}.mp4")
+
+    # Save the uploaded file
+    with open(temp_image_path, "wb") as buffer:
+        shutil.copyfileobj(image.file, buffer)
+
+    # Start the background task
+    background_tasks.add_task(
+        run_generation_in_background, job_id, temp_image_path, output_video_path
+    )
+
+    # Immediately return the job ID to the client
+    return JSONResponse(
+        status_code=202,  # The request is accepted for processing
+        content={"job_id": job_id},
+    )
+
+
+@app.get("/status/{job_id}")
+def get_job_status(job_id: str):
+    """
+    The endpoint to check the status of a generation job.
+    """
+    status = job_status.get(job_id)
+    if not status:
+        raise HTTPException(status_code=404, detail="Job not found")
+    return status
+
+
+# To allow the front-end to access the generated videos,
+app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
