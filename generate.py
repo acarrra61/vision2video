@@ -44,7 +44,7 @@ def generate_video_from_image(
     try:
         image = load_image(image_path)
         # Resizing the image to the required dimensions (change if needed)
-        image = image.resize(1024, 576)
+        image = image.resize((1024, 576), Image.Resampling.LANCZOS)
     except FileNotFoundError:
         print(f"Error: The file {image_path} was not found.")
         return
@@ -58,7 +58,7 @@ def generate_video_from_image(
 
     frames = pipe(
         image,
-        decode_chunk_size=8,  # Lower this if you have low VRAM
+        decode_chunk_size=2,  # Lower this if you have low VRAM
         generator=generator,
         motion_bucket_id=127,  # Controls the amount of motion in the video
         noise_aug_strength=0.1,  # Adds a bit of noise for more motion
@@ -73,3 +73,25 @@ def generate_video_from_image(
         print(f"Success! Video saved to: {output_path}")
     except Exception as e:
         print(f"Error exporting video: {e}")
+
+
+if __name__ == "__main__":
+    # Using argparse to handle command line arguments in order to pass information to the script
+    parser = argparse.ArgumentParser(
+        description="Generate a video from an image using Stable Video Diffusion Model."
+    )
+    parser.add_argument(
+        "--image_path",
+        type=str,
+        default="test_image.png",
+        help="Path to the input image file",
+    )
+    parser.add_argument(
+        "--output_path",
+        type=str,
+        default="generated_video.mp4",
+        help="Path to save the output video",
+    )
+    args = parser.parse_args()
+
+    generate_video_from_image(args.image_path, args.output_path)
