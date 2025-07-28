@@ -7,14 +7,6 @@
 
 Transform any static image into a short, dynamic video using the power of AI. This full-stack application provides a seamless user experience for bringing photos to life.
 
----
-
-### 🚀 Live Demo
-
-**[Link to your deployed application will go here after we host it]**
-
----
-
 ### 💡 The Tech Stack Explained
 
 This project is a modern full-stack application, carefully designed for performance, user experience, and scalability.
