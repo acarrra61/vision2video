@@ -4,6 +4,7 @@ import shutil
 from fastapi import FastAPI, UploadFile, File, BackgroundTasks, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 # Importing the generator function to link it with the API
 from generate import generate_video_from_image
@@ -13,6 +14,19 @@ os.makedirs("uploads", exist_ok=True)
 os.makedirs("outputs", exist_ok=True)
 
 app = FastAPI(title="Vision 2 Video API")
+
+# This allows React frontend (running on port 5173) to talk to the API (running on port 8000)
+origins = [
+    "http://localhost:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 
 # A dictionary to keep track of job statuses similar to a database
 job_status: dict[str, dict] = {}

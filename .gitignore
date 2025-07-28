@@ -207,6 +207,7 @@ marimo/_lsp/
 __marimo__/
 
 *.png
+*.jpg
 *.mp4
 
 # Ignore generated media files
