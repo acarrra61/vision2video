@@ -9,7 +9,7 @@ Transform any static image into a short, dynamic video using the power of AI. Th
 
 ### 📸 App Preview
 
-![Vision 2 Video Demo](src/assets/Vision2Video.gif)
+![Vision 2 Video Demo](assets/demo.gif)
 
 ### 💡 The Tech Stack Explained
 
