@@ -30,11 +30,17 @@ def generate_video_from_image(
         # This will download the model the first time it is ran (it's a few GB).
         # It will be cached for subsequent runs.
         pipe = StableVideoDiffusionPipeline.from_pretrained(
-            "stabilityai/stable-video-diffusion-img2vid-xt",
+            "stabilityai/stable-video-diffusion-img2vid",  # Faster non-XT version
             torch_dtype=dtype,
             variant="fp16",  # Use "fp16" variant for float16 precision on GPU
         )
         pipe.to(device)
+
+        # Enable memory efficient attention for faster processing
+        if device == "cuda":
+            pipe.enable_attention_slicing()
+            pipe.enable_model_cpu_offload()  # Offload unused parts to CPU to save VRAM
+
         print("Model loaded successfully.")
     except Exception as e:
         print(f"Error loading model: {e}")
@@ -58,10 +64,12 @@ def generate_video_from_image(
 
     frames = pipe(
         image,
-        decode_chunk_size=2,  # Lower this if you have low VRAM
+        decode_chunk_size=4,  # Increased for better speed with RTX 4070
         generator=generator,
         motion_bucket_id=127,  # Controls the amount of motion in the video
         noise_aug_strength=0.1,  # Adds a bit of noise for more motion
+        num_frames=14,  # Reduce from default 25 frames for faster generation
+        num_inference_steps=20,  # Reduce from default 25 steps for speed
     ).frames[0]
     print("Frame generaton completed.")
 

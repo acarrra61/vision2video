@@ -99,14 +99,31 @@ const generateVideo = async () => {
 };
 
   // Function to handle video download
-  const downloadVideo = () => {
+  const downloadVideo = async () => {
     if (generatedVideo) {
-      const link = document.createElement('a');
-      link.href = generatedVideo;
-      link.download = 'generated_video.mp4';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      try {
+        // Fetch the video as a blob to avoid CORS issues
+        const response = await fetch(generatedVideo);
+        if (!response.ok) {
+          throw new Error('Failed to fetch video');
+        }
+        
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'generated_video.mp4';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Clean up the blob URL
+        window.URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error('Download failed:', error);
+        alert('Failed to download video. Please try again.');
+      }
     }
   };
 
