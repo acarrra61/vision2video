@@ -30,7 +30,7 @@ def generate_video_from_image(
         # This will download the model the first time it is ran (it's a few GB).
         # It will be cached for subsequent runs.
         pipe = StableVideoDiffusionPipeline.from_pretrained(
-            "stabilityai/stable-video-diffusion-img2vid",  # Faster non-XT version
+            "stabilityai/stable-video-diffusion-img2vid",  # Faster non-XT version, the other version was img2vid-x
             torch_dtype=dtype,
             variant="fp16",  # Use "fp16" variant for float16 precision on GPU
         )

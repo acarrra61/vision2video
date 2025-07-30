@@ -12,6 +12,7 @@ export default function App() {
   const [progress, setProgress] = useState(0)
   const [generatedVideo, setGeneratedVideo] = useState(null)
   const [originalFile, setOriginalFile] = useState(null); 
+  const [prompt, setPrompt] = useState("");
 
 const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -53,6 +54,7 @@ const generateVideo = async () => {
     // Create FormData object
     const formData = new FormData();
     formData.append('image', originalFile);
+    formData.append('prompt', prompt);
 
     try {
         // --- 1. Start the generation job ---
@@ -180,7 +182,7 @@ const generateVideo = async () => {
 
       {/* Main Content */}
       <section className="container mx-auto px-4 pb-16">
-        <div className="max-w-4xl mx-auto">
+         <div className="max-w-4xl mx-auto"> 
           <div className="grid md:grid-cols-2 gap-8">
             {/* Upload Section */}
             <Card className="border-2 border-dashed border-gray-200 hover:border-purple-300 transition-colors">
@@ -266,7 +268,7 @@ const generateVideo = async () => {
                     <div className="relative">
                       <video
                         src={generatedVideo}
-                        className="w-full h-48 object-cover rounded-lg"
+                        className="w-full h-64 md:h-80 lg:h-96 object-contain rounded-lg bg-black"
                         controls
                         poster={uploadedImage} // Use the original image as poster
                       >
@@ -295,6 +297,28 @@ const generateVideo = async () => {
               </CardContent>
             </Card>
           </div>
+
+           {/* --- NEW: Prompt Section --- */}
+          <Card className="mt-6 mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Sparkles className="w-5 h-5 mr-2" />
+                2. Enter Your Prompt
+              </CardTitle>
+              <CardDescription>Describe the motion or scene you want to see.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <textarea
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                placeholder="e.g., a person waving, cinematic, photorealistic..."
+                className="w-full h-24 p-2 bg-slate-100 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:outline-none resize-none"
+                rows={4}
+                disabled={false}
+              />
+            </CardContent>
+          </Card>
+          {/* ------------------------- */}
 
           {/* Process Steps */}
           <div className="mt-16">
