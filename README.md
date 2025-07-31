@@ -11,7 +11,7 @@ An advanced full-stack application that transforms a static image and a text pro
 
 ### 📸 App Demo
 
-**(This is your chance to shine! Record a new demo showing you type in a prompt, upload an image, and get a video that matches your prompt. This is a huge upgrade from the last demo!)**
+**This is a huge upgrade from the last AI model being used!**
 
 ![Vision 2 Video ComfyUI Demo](assets/Vision2Video.gif)
 
