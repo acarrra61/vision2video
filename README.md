@@ -74,7 +74,11 @@ pip install -r requirements.txt
 # pip install triton
 # pip install ... (for SageAttention)
 ```
-You will also need to download the Wan 2.2 and Lightx2v model files and place them in the `ComfyUI/models/checkpoints` directory.
+
+Need to include two workflow noises (high and low) that is suitable to your VRAM in path ComfyUI\models\unet from: https://huggingface.co/bullerwins/Wan2.2-I2V-A14B-GGUF/tree/main
+Need to include Lightx2v_I2V Lora in path ComfyUI\models\loras from: https://huggingface.co/Kijai/WanVideo_comfy/tree/main/Lightx2v
+Need to include text encoder in path ComfyUI\models\text_encoders from: https://comfyanonymous.github.io/ComfyUI_examples/wan22/
+Need to include VAE in path ComfyUI\models\vae from: Same as above
 
 #### 3. Set Up the FastAPI Backend
 ```bash
