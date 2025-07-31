@@ -75,10 +75,26 @@ pip install -r requirements.txt
 # pip install ... (for SageAttention)
 ```
 
-Need to include two workflow noises (high and low) that is suitable to your VRAM in path ComfyUI\models\unet from: https://huggingface.co/bullerwins/Wan2.2-I2V-A14B-GGUF/tree/main
-Need to include Lightx2v_I2V Lora in path ComfyUI\models\loras from: https://huggingface.co/Kijai/WanVideo_comfy/tree/main/Lightx2v
-Need to include text encoder in path ComfyUI\models\text_encoders from: https://comfyanonymous.github.io/ComfyUI_examples/wan22/
-Need to include VAE in path ComfyUI\models\vae from: Same as above
+**Model Downloads Required:**
+
+You need to download and place the following models in their respective ComfyUI directories:
+
+*   **🔧 Workflow Models (UNet):**
+    *   Download high or low VRAM versions suitable for your GPU
+    *   **Path:** `ComfyUI/models/unet/`
+    *   **Source:** [Wan2.2-I2V-A14B-GGUF](https://huggingface.co/bullerwins/Wan2.2-I2V-A14B-GGUF/tree/main)
+
+*   **✨ Lightx2v LoRA:**
+    *   **Path:** `ComfyUI/models/loras/`
+    *   **Source:** [WanVideo Lightx2v](https://huggingface.co/Kijai/WanVideo_comfy/tree/main/Lightx2v)
+
+*   **📝 Text Encoder:**
+    *   **Path:** `ComfyUI/models/text_encoders/`
+    *   **Source:** [ComfyUI Wan22 Examples](https://comfyanonymous.github.io/ComfyUI_examples/wan22/)
+
+*   **🎬 VAE (Video Autoencoder):**
+    *   **Path:** `ComfyUI/models/vae/`
+    *   **Source:** [ComfyUI Wan22 Examples](https://comfyanonymous.github.io/ComfyUI_examples/wan22/)
 
 #### 3. Set Up the FastAPI Backend
 ```bash
