@@ -1,72 +1,118 @@
-# Vision 2 Video ✨
+# Vision 2 Video (ComfyUI Edition) ✨
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![ComfyUI](https://img.shields.io/badge/ComfyUI-ec5824?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xOC43ODQgOS44MTRhMy42ODMgMy42ODMgMCAwIDAtLjIwOC0xLjE4NmwxLjMyOC0uNzY3YTMuNzg1IDMuNzg1IDAgMCAwLTEuODYtMy4yMjFsLTEuMzI4Ljc2N2EzLjY1OCAzLjY1OCAwIDAgMC0yLjA2OC0uNDI0di0xLjUzNGEzLjc4NSAzLjc4NSAwIDAgMC0zLjY4OS0zLjc0MmgtLjA1MmEzLjc4NSAzLjc4NSAwIDAgMC0zLjc0MiAzLjc0MnYxLjUzNGEzLjY1OCAzLjY1OCAwIDAgMC0yLjA2OC40MjRMNCA1LjE4MmEzLjc4NSAzLjc4NSAwIDAgMC0xLjg2IDMuMjIxbDEuMzI4Ljc2N2EzLjY4MyAzLjY4MyAwIDAgMC0uMjA4IDEuMTg2SDJWMTQuOGg1LjIzMmEzLjY4MyAzLjY4MyAwIDAgMCAuMjA4IDEuMTg2bC0xLjMyOC43NjdhMy43ODUgMy43ODUgMCAwIDAgMS44NiAzLjIyMWwxLjMyOC0uNzY3YTMuNjU4IDMuNjU4IDAgMCAwIDIuMDY4LjQyNHYxLjUzNGEzLjc4NSAzLjc4NSAwIDAgMCAzLjc0MiAzLjc0MmgwLjA1MmEzLjc4NSAzLjc4NSAwIDAgMCAzLjc0Mi0zLjc0MnYtMS41MzRhMy42NTggMy42NTggMCAwIDAgMi4wNjgtLjQyNGwxLjMyOC43NjdhMy43ODUgMy43ODUgMCAwIDAgMS44Ni0zLjIyMWwtMS4zMjgtLjc2N2EzLjY4MyAzLjY4MyAwIDAgMCAuMjA4LTEuMTg2SDIyVjkuODE0aC0zLjIxNlpNNy45MTIgMTIuMzRhMS42NTIgMS42NTIgMCAxIDEgMS42NTItMS42NTIgMS42NTIgMS42NTIgMCAwIDEgLTEuNjUyIDEuNjUyWm04LjE3NiAwYTEuNjUyIDEuNjUyIDAgMSAxIDEuNjUyLTEuNjUyIDEuNjUyIDEuNjUyIDAgMCAxIC0xLjY1MgMS42NTJaIi8+PC9zdmc+)
 
-Transform any static image into a short, dynamic video using the power of AI. This full-stack application provides a seamless user experience for bringing photos to life.
+An advanced full-stack application that transforms a static image and a text prompt into a dynamic, AI-generated video using a powerful ComfyUI backend.
 
-### 📸 App Preview
+---
 
-![Vision 2 Video Demo](assets/Vision2Video.gif)
+### 📸 App Demo
 
-### 💡 The Tech Stack Explained
+**(This is your chance to shine! Record a new demo showing you type in a prompt, upload an image, and get a video that matches your prompt. This is a huge upgrade from the last demo!)**
 
-This project is a modern full-stack application, carefully designed for performance, user experience, and scalability.
+![Vision 2 Video ComfyUI Demo](assets/Vision2Video.gif)
 
-#### Frontend (The User's Experience)
+---
 
-*   **React & Vite:** The UI is built with React, the industry standard for creating dynamic and interactive user interfaces. Using Vite as a build tool for its blazing-fast development server and it optimizes production builds.
-*   **Tailwind CSS & shadcn/ui:** The beautiful, responsive design is crafted with Tailwind CSS, a utility-first framework that allows for rapid styling. All components (buttons, cards, etc.) are implemented using `shadcn/ui`, providing accessible and composable building blocks for a professional look and feel.
-*   **Asynchronous Polling:** The frontend doesn't freeze while the video is generating. It submits a job which it gets a `job_id`, and then polls a status endpoint every few seconds. This provides a non-blocking, responsive experience for the user and completes it with a real-time progress bar.
+### 💡 Architecture & Technology
 
-#### Backend (The AI Brain)
+This project utilizes a sophisticated two-server architecture to separate concerns and leverage the best tools for each job.
 
-*   **Python & FastAPI:** The backend is powered by Python, the premier language for machine learning. Using FastAPI, a high-performance web framework to build the API. FastAPI's key features include automatic interactive documentation, data validation with Pydantic, and native support for asynchronous tasks.
-*   **Stable Video Diffusion:** The core AI magic comes from `stabilityai/stable-video-diffusion-img2vid-xt`, a state-of-the-art generative model. This model takes a source image and synthesizes a sequence of frames to create a plausible short video.
-*   **Background Tasks:** Video generation is slow. To prevent user requests from timing out, our API leverages FastAPI's `BackgroundTasks`. When a request comes in, the heavy AI work is immediately handed off to a background process, allowing the server to instantly respond to the user with a `job_id`.
+#### Frontend (The User Interface)
+The UI is a sleek, modern single-page application designed for an intuitive user experience.
+*   **Built with React & Vite:** Providing a fast, responsive, and interactive UI.
+*   **Styled with Tailwind CSS & shadcn/ui:** A professional and fully responsive design built with industry-standard tools.
+*   **Key Feature:** Users can provide both an image and a **text prompt**, giving them creative control over the final video output.
+
+#### Backend (The Orchestrator & AI Engine)
+The backend is composed of two distinct services that work in harmony:
+
+1.  **FastAPI Orchestrator (This Project):**
+    *   This server acts as the "brain" of the operation. It receives user requests (image + prompt) from the React frontend.
+    *   It dynamically constructs a workflow JSON for the ComfyUI engine, injecting the user's prompt and unique filenames.
+    *   It sends the job to ComfyUI, then intelligently polls for the output file, providing real-time status updates back to the user.
+
+2.  **ComfyUI Engine (The AI Powerhouse):**
+    *   This runs as a separate, dedicated server, handling the heavy AI computation.
+    *   The node-based workflow uses the state-of-the-art **Wan 2.2** model with **Lightx2v** for high-quality, prompt-guided video generation.
+    *   **New Dependencies:** This powerful setup relies on specialized libraries like **Triton** and **SageAttention** for optimized performance.
 
 ---
 
 ### 🔧 Running the Project Locally
 
-To run this project on your own machine, follow these steps:
+This project requires running two separate servers. Please follow these instructions carefully.
 
-1.  **Clone the repository:**
+#### Prerequisites
+*   Git
+*   Python 3.10+ and Pip
+*   Node.js and npm
+
+#### 1. Set Up the Project Folders
+First, clone this repository which contains the FastAPI orchestrator and the React frontend.
+```bash
+git clone https://github.com/your-username/vision2video.git
+cd vision2video
+```
+
+#### 2. Set Up the ComfyUI Backend
+This project requires a specific ComfyUI setup.
+```bash
+# From your main projects directory (not inside vision2video)
+git clone https://github.com/comfyanonymous/ComfyUI.git
+cd ComfyUI
+
+# Install ComfyUI's Python dependencies
+pip install -r requirements.txt
+
+# IMPORTANT: Install custom dependencies for the Wan 2.2 workflow
+# Please follow the specific installation instructions for Triton and SageAttention
+# This may involve commands like:
+# pip install triton
+# pip install ... (for SageAttention)
+```
+You will also need to download the Wan 2.2 and Lightx2v model files and place them in the `ComfyUI/models/checkpoints` directory.
+
+#### 3. Set Up the FastAPI Backend
+```bash
+# Go back to the vision2video project directory
+cd ../vision2video
+
+# Create and activate a Python virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install Python dependencies for this server
+pip install -r requirements.txt
+```
+
+#### 4. Set Up the React Frontend
+```bash
+# In a new terminal, navigate to the frontend directory
+cd vision2video/frontend
+
+# Install Node.js dependencies
+npm install
+```
+
+#### 5. Run the Full System!
+You need to run **three terminals** simultaneously.
+
+*   **Terminal 1 (ComfyUI Engine):**
     ```bash
-    git clone https://github.com/acarrra61/vision2video.git
+    cd ComfyUI
+    python main.py
+    ```
+
+*   **Terminal 2 (FastAPI Orchestrator):**
+    ```bash
     cd vision2video
-    ```
-
-2.  **Set up the Backend:**
-    ```bash
-    # Create and activate a Python virtual environment
-    python -m venv venv
-    source venv/Scripts/activate # If using Windows: venv\Scripts\activate
-    
-
-    # Install Python dependencies
-    pip install -r requirements.txt
-
-    # Start the backend server
     uvicorn main:app --reload
-    ```
-    The backend will be running at `http://localhost:8000`.
 
-3.  **Set up the Frontend:**
+*   **Terminal 3 (React Frontend):**
     ```bash
-    # Open a new terminal window
     cd frontend
-
-    # Install Node.js dependencies
-    npm install
-
-    # Start the frontend development server
     npm run dev
-    ```
-    The frontend will be running at `http://localhost:5173`.
-
----
-
-*This project was built by Abel Carrasco for the Boot.dev Hackathon! July 2025.*
