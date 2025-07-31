@@ -1,7 +1,7 @@
 import os
 import uuid
 import shutil
-from fastapi import FastAPI, UploadFile, File, BackgroundTasks, HTTPException
+from fastapi import FastAPI, UploadFile, File, BackgroundTasks, HTTPException, Request
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -161,3 +161,31 @@ def get_job_status(job_id: str):
 
 # To allow the front-end to access the generated videos,
 app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
+
+
+@app.api_route("/video/{job_id}", methods=["GET", "HEAD"])
+def get_video(job_id: str, request: Request):
+    """
+    Serve video files with proper headers for browser compatibility
+    Supports both GET and HEAD methods
+    """
+    video_path = f"outputs/{job_id}.mp4"
+    if not os.path.exists(video_path):
+        raise HTTPException(status_code=404, detail="Video not found")
+
+    headers = {
+        "Accept-Ranges": "bytes",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, HEAD",
+        "Access-Control-Allow-Headers": "*",
+    }
+
+    # For HEAD requests, return just the headers without the file content
+    if request.method == "HEAD":
+        return JSONResponse(content={}, headers=headers)
+
+    return FileResponse(
+        video_path,
+        media_type="video/mp4",
+        headers=headers,
+    )

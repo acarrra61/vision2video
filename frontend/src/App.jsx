@@ -83,9 +83,24 @@ const generateVideo = async () => {
             if (data.status === 'completed') {
                 clearInterval(pollInterval);
                 setProgress(100);
-                // Construct the full URL for the video
-                setGeneratedVideo(`http://127.0.0.1:8000/outputs/${job_id}.mp4`);
+                // Use the new video endpoint for better compatibility
+                const videoUrl = `http://127.0.0.1:8000/video/${job_id}`;
+                setGeneratedVideo(videoUrl);
                 setIsProcessing(false);
+                
+                // Verify the video is accessible
+                setTimeout(async () => {
+                  try {
+                    const response = await fetch(videoUrl, { method: 'HEAD' });
+                    if (!response.ok) {
+                      console.log("Video endpoint not accessible, falling back to static file");
+                      setGeneratedVideo(`http://127.0.0.1:8000/outputs/${job_id}.mp4`);
+                    }
+                  } catch (error) {
+                    console.log("Video endpoint error, falling back to static file:", error);
+                    setGeneratedVideo(`http://127.0.0.1:8000/outputs/${job_id}.mp4`);
+                  }
+                }, 500);
             } else if (data.status === 'failed') {
                 clearInterval(pollInterval);
                 console.error("Generation failed:", data.error);
@@ -271,6 +286,20 @@ const generateVideo = async () => {
                         className="w-full h-64 md:h-80 lg:h-96 object-contain rounded-lg bg-black"
                         controls
                         poster={uploadedImage} // Use the original image as poster
+                        preload="metadata"
+                        crossOrigin="anonymous"
+                        onError={(e) => {
+                          console.error("Video failed to load:", e);
+                          console.log("Video src:", generatedVideo);
+                          // Try to reload the video after a short delay
+                          setTimeout(() => {
+                            const video = e.target;
+                            video.load();
+                          }, 1000);
+                        }}
+                        onLoadStart={() => console.log("Video loading started")}
+                        onCanPlay={() => console.log("Video can play")}
+                        onLoadedData={() => console.log("Video data loaded")}
                       >
                         Your browser does not support the video tag.
                       </video>
@@ -303,7 +332,7 @@ const generateVideo = async () => {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Sparkles className="w-5 h-5 mr-2" />
-                2. Enter Your Prompt
+                Enter Your Prompt
               </CardTitle>
               <CardDescription>Describe the motion or scene you want to see.</CardDescription>
             </CardHeader>
