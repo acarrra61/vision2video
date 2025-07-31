@@ -37,7 +37,7 @@ The backend is composed of two distinct services that work in harmony:
 
 2.  **ComfyUI Engine (The AI Powerhouse):**
     *   This runs as a separate, dedicated server, handling the heavy AI computation.
-    *   The node-based workflow uses the state-of-the-art **Wan 2.2** model with **Lightx2v** for high-quality, prompt-guided video generation.
+    *   The node-based workflow uses the state-of-the-art **Wan 2.2** model with for high-quality, prompt-guided video generation.
     *   **New Dependencies:** This powerful setup relies on specialized libraries like **Triton** and **SageAttention** for optimized performance.
 
 ---
